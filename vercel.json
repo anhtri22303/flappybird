@@ -1,7 +1,11 @@
 {
   "version": 2,
   "builds": [
-    { "src": "server.js", "use": "@vercel/node" },
+    { 
+      "src": "package.json", 
+      "use": "@vercel/node",
+      "config": { "includeFiles": ["game.js"] }
+    },
     { "src": "*.html", "use": "@vercel/static" },
     { "src": "*.js", "use": "@vercel/static" },
     { "src": "sprites/**", "use": "@vercel/static" },
@@ -10,5 +14,6 @@
   "routes": [
     { "src": "/phaser/(.*)", "dest": "/node_modules/phaser/dist/$1" },
     { "src": "/(.*)", "dest": "/server.js" }
-  ]
+  ],
+  "installCommand": "npm install"
 }
