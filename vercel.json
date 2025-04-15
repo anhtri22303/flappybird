@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "server.js", "use": "@vercel/node" },
+    { "src": "*.html", "use": "@vercel/static" },
+    { "src": "*.js", "use": "@vercel/static" },
+    { "src": "sprites/**", "use": "@vercel/static" },
+    { "src": "audio/**", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/phaser/(.*)", "dest": "/node_modules/phaser/dist/$1" },
+    { "src": "/(.*)", "dest": "/server.js" }
+  ]
+}

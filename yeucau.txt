@@ -1,0 +1,37 @@
+1. Công cụ cần thiết
+Phaser.js: Framework để tạo game 2D.
+HTML, CSS, JavaScript: Ngôn ngữ nền tảng.
+
+2. Ý tưởng game
+Flappy Bird là game có lối chơi đơn giản:
+
+Người chơi điều khiển một con chim bằng cách nhấn phím hoặc chạm vào màn hình để giúp nó bay lên.
+Khi không có tác động, chim sẽ rơi xuống do trọng lực.
+Có các cột ống nước xuất hiện liên tục, người chơi cần né tránh bằng cách lách qua khoảng trống giữa chúng.
+Nếu chim chạm vào ống nước hoặc chạm đất, game over.
+
+3. Cấu trúc game
+a. Khởi tạo game
+Khai báo Phaser và cấu hình game (kích thước, physics, scene, v.v.).
+b. Tạo nhân vật chính (chim)
+Thêm sprite chim vào game.
+Áp dụng trọng lực để làm chim rơi tự nhiên.
+Thêm điều khiển (nhấn phím hoặc chạm màn hình để bay lên).
+c. Tạo chướng ngại vật (ống nước)
+Các cột ống nước xuất hiện ngẫu nhiên từ trên xuống dưới.
+Chúng di chuyển từ phải sang trái rồi biến mất khi ra khỏi màn hình.
+Mỗi lần chim lách qua khoảng trống, tăng điểm.
+
+d. Xử lý va chạm
+Nếu chim va vào ống nước hoặc chạm đất => Game Over.
+e. Thêm UI
+Hiển thị điểm số.
+Nút restart khi thua.
+
+4. Mô hình cập nhật game
+Tính năng	Cách thực hiện trong Phaser.js
+Chim bay	this.physics.add.sprite(x, y, 'bird') + setVelocityY(-jumpForce)
+Trọng lực	setGravityY(300)
+Ống nước	this.physics.add.group() + setVelocityX(-speed)
+Điểm số	this.add.text(x, y, score, { fontSize: '32px' })
+Game Over	this.scene.restart()
