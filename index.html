@@ -19,19 +19,22 @@
       #game-container {
         position: relative;
         width: 100%;
-        max-width: 800px;
-        max-height: 100vh;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
       canvas {
         display: block;
         margin: 0 auto;
         max-width: 100%;
-        max-height: 100vh;
+        max-height: 100%;
       }
       @media (max-width: 768px) {
         canvas {
-          width: 100%;
-          height: auto;
+          width: 100% !important; /* Force width */
+          height: 100% !important; /* Force height */
+          object-fit: contain; /* Giữ tỷ lệ nhưng lấp đầy không gian */
         }
       }
     </style>

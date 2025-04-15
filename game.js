@@ -1,17 +1,7 @@
 function getGameSize() {
-  // Kích thước game mặc định
-  const defaultWidth = 800;
+  // Sử dụng kích thước chuẩn cho game
+  const defaultWidth = 400;
   const defaultHeight = 600;
-  
-  // Tỷ lệ giữa width và height
-  const ratio = defaultWidth / defaultHeight;
-  
-  // Trên mobile, chọn kích thước phù hợp dựa trên màn hình
-  if (window.innerWidth < 768) {
-    const width = Math.min(window.innerWidth, defaultWidth);
-    const height = width / ratio;
-    return { width, height };
-  }
   
   return { width: defaultWidth, height: defaultHeight };
 }
@@ -21,13 +11,17 @@ const gameSize = getGameSize();
 
 const config = {
   type: Phaser.AUTO,
+  parent: 'game-container',
   width: gameSize.width,
   height: gameSize.height,
-  parent: 'game-container',
+  scale: {
+    mode: Phaser.Scale.FIT,
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+  },
   physics: {
     default: "arcade",
     arcade: {
-      gravity: { y: gameSize.height * 2 }, // Điều chỉnh trọng lực theo kích thước màn hình
+      gravity: { y: 1200 }, // Giữ nguyên trọng lực thay vì điều chỉnh theo kích thước
       debug: false,
     },
   },
@@ -35,10 +29,6 @@ const config = {
     preload: preload,
     create: create,
     update: update,
-  },
-  scale: {
-    mode: Phaser.Scale.FIT,
-    autoCenter: Phaser.Scale.CENTER_BOTH
   }
 };
 
@@ -248,37 +238,37 @@ function flap() {
     resetGame.call(this);
     return;
   }
-  // Điều chỉnh lực nhảy theo kích thước màn hình
-  bird.setVelocityY(-gameSize.height * 0.67);
+  // Sử dụng giá trị cố định cho lực nhảy
+  bird.setVelocityY(-400);
   flapSound.play();
 }
 
 function spawnPipes() {
   if (gameOver) return;
 
-  // Điều chỉnh theo kích thước màn hình
-  const pipeSpeed = -gameSize.width * 0.25;
+  // Sử dụng giá trị cố định thay vì điều chỉnh theo màn hình
+  const pipeSpeed = -150; // Tốc độ ống cố định
   
   // Tính vị trí khoảng hở
-  const minHeight = gameSize.height * 0.25;
-  const maxHeight = gameSize.height - minHeight - pipeGap;
+  const minHeight = 150;
+  const maxHeight = config.height - minHeight - pipeGap;
   const gapStart = Phaser.Math.Between(minHeight, maxHeight);
   
   // Tạo ống trên
-  const topPipe = pipes.create(gameSize.width, gapStart - pipeGap / 2, "pipe");
+  const topPipe = pipes.create(config.width, gapStart - pipeGap / 2, "pipe");
   topPipe.body.allowGravity = false;
   topPipe.setVelocityX(pipeSpeed);
   topPipe.setFlipY(true);
   topPipe.setOrigin(0.5, 1);
   
   // Ống dưới
-  const bottomPipe = pipes.create(gameSize.width, gapStart + pipeGap / 2, "pipe");
+  const bottomPipe = pipes.create(config.width, gapStart + pipeGap / 2, "pipe");
   bottomPipe.body.allowGravity = false;
   bottomPipe.setVelocityX(pipeSpeed);
   bottomPipe.setOrigin(0.5, 0);
   
   // Vùng tính điểm
-  const scoreZone = this.add.zone(gameSize.width + 5, 0, 10, gameSize.height);
+  const scoreZone = this.add.zone(config.width + 5, 0, 10, config.height);
   this.physics.world.enable(scoreZone);
   scoreZone.body.allowGravity = false;
   scoreZone.body.setVelocityX(pipeSpeed);
